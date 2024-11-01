@@ -7,7 +7,6 @@ import streamlit as st
 # passcode = os.getenv("PASSCODE")
 passcode = st.secrets["general"]["PASSCODE"]
 
-# Initialize session state for passcode validation and riddle progress
 if "access_granted" not in st.session_state:
     st.session_state.access_granted = False
 if "current_riddle" not in st.session_state:
@@ -15,11 +14,11 @@ if "current_riddle" not in st.session_state:
 
 if not st.session_state.access_granted:
     st.title("Birthday Riddle Challenge 🎉")
-    entered_passcode = st.text_input("Enter the passcode to access the riddles:")
+    entered_passcode = st.text_input("Enter the passcode to get the first riddle:")
 
     if entered_passcode == passcode:
         st.session_state.access_granted = True
-        st.success("Access granted! Let’s start the riddle challenge!")
+        st.success("Access granted! Let's start the challenge!")
 
     elif entered_passcode:
         st.error("Incorrect passcode. Please try again.")
