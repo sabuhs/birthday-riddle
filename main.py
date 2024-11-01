@@ -1,10 +1,11 @@
 import os
 import streamlit as st
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
-load_dotenv()
-# Define the passcode
-passcode = os.getenv("PASSCODE")
+# load_dotenv()
+
+# passcode = os.getenv("PASSCODE")
+passcode = st.secrets["general"]["PASSCODE"]
 
 # Initialize session state for passcode validation and riddle progress
 if "access_granted" not in st.session_state:
@@ -12,7 +13,6 @@ if "access_granted" not in st.session_state:
 if "current_riddle" not in st.session_state:
     st.session_state.current_riddle = 0
 
-# Passcode check
 if not st.session_state.access_granted:
     st.title("Birthday Riddle Challenge 🎉")
     entered_passcode = st.text_input("Enter the passcode to access the riddles:")
@@ -20,13 +20,12 @@ if not st.session_state.access_granted:
     if entered_passcode == passcode:
         st.session_state.access_granted = True
         st.success("Access granted! Let’s start the riddle challenge!")
-        # Note: No rerun is needed; Streamlit will re-render automatically based on session state
+
     elif entered_passcode:
         st.error("Incorrect passcode. Please try again.")
 
-# Display riddles only if access is granted
+
 if st.session_state.access_granted:
-    # Agenda and riddles data
     agenda = [
         {
             "riddle": "I'm known for my wool, though I'm not quite a sheep. In fields or mountains, I often leap. Friendly and furry, I'll make you smile. Who am I?",
@@ -54,23 +53,19 @@ if st.session_state.access_granted:
         },
     ]
 
-    # Get current riddle based on progress
     current_riddle = agenda[st.session_state.current_riddle]
 
     st.title("Birthday Riddle Challenge 🎉")
 
-    # Display riddle and get user answer
     st.write("Solve this riddle to unlock the next part of the agenda!")
     st.write(f"Riddle: {current_riddle['riddle']}")
     user_answer = st.text_input("Enter your answer here:")
 
-    # Check the answer
     if user_answer.lower() == current_riddle["answer"]:
         st.success("Correct! 🎉")
         st.write(f"You've unlocked the next activity: **{current_riddle['activity']}**")
         st.image(current_riddle["image"], caption=current_riddle["activity"], use_column_width=True)
         
-        # Advance to next riddle if there are more
         if st.session_state.current_riddle < len(agenda) - 1:
             if st.button("Go to the Next Riddle"):
                 st.session_state.current_riddle += 1
