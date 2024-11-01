@@ -70,7 +70,7 @@ if st.session_state.access_granted:
                 st.session_state.current_riddle += 1
         else:
             st.write("Congratulations! You've unlocked the full agenda!")
-            st.success("🎉 Happy Birthday on your special day! 🎉")
+            st.success("🎉 Happy 26th Birthday! 🎉")
     else:
         if user_answer:
             st.error("Oops! Try again.")
